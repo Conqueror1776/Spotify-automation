@@ -1,6 +1,6 @@
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
 
+# Connect to Spotify API
 def connect_api(filename):
     filecache = read_client(filename)
     cid = filecache['client_id']
@@ -8,6 +8,7 @@ def connect_api(filename):
     username = filecache['username']
     return spotipy.util.prompt_for_user_token(username, "playlist-modify-public user-library-read", cid, secret, "http://127.0.0.1:9090")
 
+# Get Tokens and username from file
 def read_client(filename):
     filecache = {}
     with open(filename) as f:
@@ -16,7 +17,7 @@ def read_client(filename):
             filecache[key] = val
     return filecache
 
-# Returns a list of the first x liked songs
+# Returns a list of the first 50 liked songs
 def get_liked_songs(spotify):
     return spotify.current_user_saved_tracks()
 
@@ -34,7 +35,3 @@ def analyze_song(song):
 def add_song(song, playlist):
     # TODO
     return null
-
-
-spotify = spotipy.Spotify(connect_api('client_tokens'))
-print(spotify.current_user_saved_tracks(limit=1))
